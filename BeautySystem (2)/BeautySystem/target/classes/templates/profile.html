@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+            width: 100%;
+            max-width: 450px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            transition: border-color 0.2s;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        .input-field[readonly] {
+            background-color: #f3f4f6;
+            cursor: not-allowed;
+        }
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 0.75rem;
+            cursor: pointer;
+            user-select: none;
+        }
+        .button {
+            width: 100%;
+            background-color: #6366f1;
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .button:hover {
+            background-color: #4f46e5;
+        }
+        .link {
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+        .error {
+            color: #ef4444;
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+        }
+        .success-message {
+            color: #10b981;
+            margin: 0.5rem 0;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+        .user-type-display {
+            padding: 0.75rem;
+            background-color: #f3f4f6;
+            border-radius: 0.375rem;
+            color: #374151;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Update Profile</h1>
+
+        <form th:action="@{/users/profile/{id}(id=${user.id})}" th:object="${user}" method="post">
+            <!-- Username Field (readonly) -->
+            <div class="mb-4">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" th:field="*{username}" class="input-field" readonly>
+            </div>
+
+            <!-- Email Field -->
+            <div class="mb-4">
+                <label for="email" class="form-label">Email (Gmail only)</label>
+                <input type="email" id="email" th:field="*{email}" class="input-field" required
+                       pattern="[a-zA-Z0-9._%+-]+@gmail\.com$"
+                       title="Please enter a valid Gmail address">
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></div>
+            </div>
+
+            <!-- Password Fields -->
+            <div class="mb-4">
+                <label for="password" class="form-label">New Password (leave blank to keep unchanged)</label>
+                <div class="input-group">
+                    <input type="password" id="password" th:field="*{password}" class="input-field"
+                           minlength="8"
+                           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
+                           title="Must contain at least 8 characters, one uppercase, one lowercase, and one number">
+                    <span class="toggle-password" onclick="togglePassword('password')" aria-label="Toggle password visibility">👁️</span>
+                </div>
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></div>
+                <p class="text-xs text-gray-500 mt-1">Minimum 8 characters with at least one uppercase, one lowercase, and one number</p>
+            </div>
+
+            <div class="mb-4">
+                <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                <div class="input-group">
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="input-field"
+                           oninput="checkPasswordMatch()">
+                    <span class="toggle-password" onclick="togglePassword('confirmPassword')" aria-label="Toggle password visibility">👁️</span>
+                </div>
+                <div id="passwordMatchError" class="error" style="display: none;">Passwords do not match</div>
+            </div>
+
+            <!-- Membership Type -->
+            <div class="mb-4">
+                <label for="membershipType" class="form-label">Membership Type</label>
+                <select id="membershipType" th:field="*{membershipType}" class="input-field">
+                    <option value="Basic">Basic</option>
+                    <option value="Premium">Premium</option>
+                </select>
+            </div>
+
+            <!-- User Type Display -->
+            <div class="mb-6">
+                <label class="form-label">User Type:</label>
+                <div class="user-type-display" th:text="${user.userType}"></div>
+            </div>
+
+            <!-- Messages -->
+            <div th:if="${message}" class="success-message" th:text="${message}"></div>
+
+            <button type="submit" class="button">Update Profile</button>
+        </form>
+
+
+    </div>
+</div>
+
+<script>
+    function togglePassword(fieldId) {
+        const field = document.getElementById(fieldId);
+        const type = field.type === 'password' ? 'text' : 'password';
+        field.type = type;
+    }
+
+    function checkPasswordMatch() {
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const errorElement = document.getElementById('passwordMatchError');
+
+        if (password.value && confirmPassword.value && password.value !== confirmPassword.value) {
+            errorElement.style.display = 'block';
+            confirmPassword.setCustomValidity("Passwords do not match");
+        } else {
+            errorElement.style.display = 'none';
+            confirmPassword.setCustomValidity("");
+        }
+    }
+
+    // Clear validation messages when user starts typing
+    document.getElementById('email').addEventListener('input', function() {
+        const errorElement = this.nextElementSibling;
+        if (errorElement && errorElement.classList.contains('error')) {
+            errorElement.style.display = 'none';
+        }
+    });
+
+    document.getElementById('password').addEventListener('input', function() {
+        const errorElement = this.parentElement.nextElementSibling;
+        if (errorElement && errorElement.classList.contains('error')) {
+            errorElement.style.display = 'none';
+        }
+        checkPasswordMatch();
+    });
+
+    document.getElementById('confirmPassword').addEventListener('input', checkPasswordMatch);
+</script>
+</body>
+</html>
