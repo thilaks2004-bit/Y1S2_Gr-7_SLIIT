@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="scroll-smooth">
+<head>
+  <title>Style Sync | Luxury Salon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind CSS 4.0 with plugins -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0f9f1',
+              100: '#daf1dd',
+              200: '#b8e4be',
+              300: '#89d095',
+              400: '#4fb363',
+              500: '#355E3B', // Your primary color
+              600: '#2a4d30',
+              700: '#233e28',
+              800: '#1d3222',
+              900: '#172a1d',
+            },
+            gold: '#D4AF37',
+            cream: '#F5F5DC',
+          },
+          animation: {
+            'fade-in': 'fadeIn 1s ease-in-out',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' }
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-15px)' }
+            }
+          }
+        },
+        fontFamily: {
+          sans: ['"Montserrat"', 'sans-serif'],
+          serif: ['"Playfair Display"', 'serif'],
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Custom styles -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-stroke {
+        -webkit-text-stroke: 1px theme('colors.primary.900');
+        text-stroke: 1px theme('colors.primary.900');
+      }
+      .parallax {
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans bg-cream text-primary-900 antialiased">
+<!-- Navigation -->
+<div th:insert="fragments/navbar :: navbar"></div>
+
+<!-- Hero Section -->
+<section class="relative h-screen flex items-center justify-center overflow-hidden">
+  <div class="absolute inset-0 bg-black/40 z-10"></div>
+  <div class="parallax bg-[url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80')]"></div>
+
+  <div class="container mx-auto px-6 relative z-20 text-center animate-fade-in">
+    <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-cream mb-6">
+      <span th:text="${title}" class="text-gold">Style Sync</span>
+    </h1>
+    <p class="text-xl md:text-2xl text-cream/90 max-w-2xl mx-auto mb-10">
+      Where beauty meets perfection. Experience luxury hair, nail, and skin care tailored just for you.
+    </p>
+    <div class="flex gap-4 justify-center">
+      <a href="#services" class="bg-gold hover:bg-gold/90 text-primary-900 font-bold py-4 px-8 rounded-full transition-all duration-300 hover:shadow-xl">
+        Our Services
+      </a>
+      <a href="#booking" class="border-2 border-gold text-gold hover:bg-gold/10 font-bold py-4 px-8 rounded-full transition-all duration-300 hover:shadow-xl">
+        Book Now
+      </a>
+    </div>
+  </div>
+
+  <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 animate-float">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+    </svg>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="py-20 bg-gradient-to-b from-cream to-primary-50">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <span class="text-gold font-serif italic text-lg">Our Offerings</span>
+      <h2 class="text-4xl md:text-5xl font-serif font-bold mt-2">Luxury Services</h2>
+      <div class="w-24 h-1 bg-gold mx-auto mt-4"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <!-- Service 1 -->
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-2">
+        <div class="aspect-w-16 aspect-h-9 overflow-hidden">
+          <img th:src="@{/p01.jpg}"
+               alt="Hair Service"
+               class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+        </div>
+        <div class="p-8">
+          <div class="text-gold text-2xl mb-3">✂️</div>
+          <h3 class="text-2xl font-serif font-bold mb-3">Hair Artistry</h3>
+          <p class="text-primary-700 mb-4">Our master stylists create looks that complement your personality and lifestyle.</p>
+          <a href="#" class="text-gold font-semibold inline-flex items-center group">
+            Explore Services
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1 group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Service 2 -->
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-2">
+        <div class="aspect-w-16 aspect-h-9 overflow-hidden">
+          <img th:src="@{/p02.jpg}"
+               alt="Nail Service"
+               class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+        </div>
+        <div class="p-8">
+          <div class="text-gold text-2xl mb-3">💅</div>
+          <h3 class="text-2xl font-serif font-bold mb-3">Nail Couture</h3>
+          <p class="text-primary-700 mb-4">Elevate your style with our premium manicures, pedicures, and custom nail art.</p>
+          <a href="#" class="text-gold font-semibold inline-flex items-center group">
+            Explore Services
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1 group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Service 3 -->
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-2">
+        <div class="aspect-w-16 aspect-h-9 overflow-hidden">
+          <img th:src="@{/p03.jpg}" alt="Hair Service"
+               class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+        </div>
+        <div class="p-8">
+          <div class="text-gold text-2xl mb-3">✨</div>
+          <h3 class="text-2xl font-serif font-bold mb-3">Skin Revival</h3>
+          <p class="text-primary-700 mb-4">Rejuvenate your skin with our advanced facials and personalized treatments.</p>
+          <a href="#" class="text-gold font-semibold inline-flex items-center group">
+            Explore Services
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1 group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Booking CTA -->
+<section id="booking" class="py-20 bg-primary-900 text-cream">
+  <div class="container mx-auto px-6 text-center">
+    <h2 class="text-4xl md:text-5xl font-serif font-bold mb-6">Ready for Your Transformation?</h2>
+    <p class="text-xl max-w-2xl mx-auto mb-10 text-cream/90">
+      Book your appointment today and experience the Style Sync difference.
+    </p>
+    <button class="bg-gold hover:bg-gold/90 text-primary-900 font-bold py-5 px-12 rounded-full transition-all duration-300 hover:shadow-2xl text-lg">
+      Book Your Session Now
+    </button>
+  </div>
+</section>
+
+<!-- Footer -->
+<div th:insert="fragments/footer :: footer"></div>
+
+<!-- Scroll to top button -->
+<button onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+        class="fixed bottom-8 right-8 bg-gold text-primary-900 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 opacity-0 invisible translate-y-4"
+        id="scrollToTop">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+  </svg>
+</button>
+
+<script>
+  // Scroll to top button visibility
+  window.addEventListener('scroll', function() {
+    const scrollToTop = document.getElementById('scrollToTop');
+    if (window.scrollY > 300) {
+      scrollToTop.classList.remove('opacity-0', 'invisible', 'translate-y-4');
+      scrollToTop.classList.add('opacity-100', 'visible', 'translate-y-0');
+    } else {
+      scrollToTop.classList.remove('opacity-100', 'visible', 'translate-y-0');
+      scrollToTop.classList.add('opacity-0', 'invisible', 'translate-y-4');
+    }
+  });
+</script>
+</body>
+</html>

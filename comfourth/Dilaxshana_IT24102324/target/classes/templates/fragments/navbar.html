@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="navbar">
+  <!-- Main Navigation -->
+  <nav class="bg-primary-900/90 backdrop-blur-md fixed w-full z-50 border-b border-gold/20">
+    <div class="container mx-auto px-6">
+      <div class="flex justify-between items-center h-20">
+        <!-- Logo/Brand -->
+        <a th:href="@{/}" class="flex items-center gap-2 group">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gold" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z" clip-rule="evenodd" />
+          </svg>
+          <span class="text-2xl font-serif font-bold text-cream group-hover:text-gold transition-colors duration-300">Style Sync</span>
+        </a>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a th:href="@{/}" class="nav-link">Home</a>
+
+
+          <div class="relative group">
+            <button class="nav-link flex items-center">
+              <span>Account</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1 transition-transform group-hover:rotate-180" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+              <a th:href="@{/login}" class="block px-4 py-2 text-primary-900 hover:bg-primary-50 transition-colors">Login</a>
+              <a th:href="@{/register}" class="block px-4 py-2 text-primary-900 hover:bg-primary-50 transition-colors">Register</a>
+            </div>
+          </div>
+
+          <a th:href="@{/booking}" class="bg-gold hover:bg-gold/90 text-primary-900 font-bold py-2 px-6 rounded-full transition-all duration-300 hover:shadow-lg">
+            Book Now
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden text-cream focus:outline-none" id="mobile-menu-button">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="md:hidden hidden bg-primary-800" id="mobile-menu">
+      <div class="px-6 py-4 space-y-4">
+        <a th:href="@{/}" class="block nav-link-mobile">Home</a>
+
+
+        <div class="pt-2 border-t border-gold/20">
+          <p class="text-gold font-semibold px-4 py-2">Account</p>
+          <a th:href="@{/login}" class="block nav-link-mobile pl-8">Login</a>
+          <a th:href="@{/register}" class="block nav-link-mobile pl-8">Register</a>
+        </div>
+
+        <a th:href="@{/booking}" class="block bg-gold text-primary-900 font-bold py-2 px-6 rounded-full text-center mt-4">
+          Book Now
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Spacer to account for fixed nav -->
+  <div class="h-20"></div>
+
+  <style type="text/tailwindcss">
+    @layer components {
+      .nav-link {
+        @apply text-cream/90 hover:text-gold font-medium transition-colors duration-300 relative;
+      }
+      .nav-link::after {
+        @apply content-[''] absolute bottom-0 left-0 w-0 h-0.5 bg-gold transition-all duration-300;
+      }
+      .nav-link:hover::after {
+        @apply w-full;
+      }
+      .nav-link-mobile {
+        @apply text-cream/90 hover:text-gold px-4 py-2 rounded-lg hover:bg-primary-700/50 transition-colors duration-300;
+      }
+    }
+  </style>
+
+  <script>
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const menu = document.getElementById('mobile-menu');
+      const button = document.getElementById('mobile-menu-button');
+
+      if (!menu.contains(event.target) && !button.contains(event.target)) {
+        menu.classList.add('hidden');
+      }
+    });
+  </script>
+</div>
+</body>
+</html>
