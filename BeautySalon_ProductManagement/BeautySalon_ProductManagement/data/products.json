@@ -1,0 +1,258 @@
+[
+  {
+    "id": "1",
+    "name": "Pure Sunblock",
+    "category": "Skin",
+    "price": 78.0,
+    "stock": 67,
+    "imageUrl": "/images/PureSunblock.png",
+    "description": "SPF 40 - Normal to dry skin."
+  },
+  {
+    "id": "2",
+    "name": "Velvet",
+    "category": "Skin",
+    "price": 98.0,
+    "stock": 58,
+    "description": "good for skin"
+  },
+  {
+    "id": "4",
+    "name": "dove",
+    "category": "Skin",
+    "price": 56.0,
+    "stock": 45,
+    "description": "good\n"
+  },
+  {
+    "id": "5",
+    "name": "dove",
+    "category": "Skin",
+    "price": 12.0,
+    "stock": 4,
+    "description": "good but not all "
+  },
+  {
+    "id": "6",
+    "name": "Velvet",
+    "category": "Hair",
+    "price": 67.0,
+    "stock": 4,
+    "description": "good not to all"
+  },
+  {
+    "id": "7",
+    "name": "Baby soap",
+    "category": "Skin",
+    "price": 56.0,
+    "stock": 4,
+    "description": "good for child"
+  },
+  {
+    "id": "8",
+    "name": "Velvet",
+    "category": "Hair",
+    "price": 56.0,
+    "stock": 9,
+    "description": "good good"
+  },
+  {
+    "id": "9",
+    "name": "dove",
+    "category": "Skin",
+    "price": 94.0,
+    "stock": 6,
+    "description": "v.good for skin"
+  },
+  {
+    "id": "10",
+    "name": "rani",
+    "category": "Hair",
+    "price": 45.0,
+    "stock": 2,
+    "description": "nothing to say"
+  },
+  {
+    "id": "11",
+    "name": "lovely",
+    "category": "Hair",
+    "price": 39.0,
+    "stock": 7,
+    "description": "not bad"
+  },
+  {
+    "id": "12",
+    "name": "lovely",
+    "category": "Hair",
+    "price": 39.0,
+    "stock": 7,
+    "description": "not bad"
+  },
+  {
+    "id": "13",
+    "name": "Velvet",
+    "category": "Hair",
+    "price": 80.0,
+    "stock": 5,
+    "description": "good"
+  },
+  {
+    "id": "14",
+    "name": "dove",
+    "category": "Skin",
+    "price": 95.0,
+    "stock": 8,
+    "description": "very good"
+  },
+  {
+    "id": "15",
+    "name": "Velvet",
+    "category": "Hair",
+    "price": 87.0,
+    "stock": 5,
+    "description": "good"
+  },
+  {
+    "id": "16",
+    "name": "Velvet",
+    "category": "Hair",
+    "price": 87.0,
+    "stock": 3,
+    "description": "good"
+  },
+  {
+    "id": "17",
+    "name": "dove",
+    "category": "Skin",
+    "price": 78.0,
+    "stock": 1,
+    "description": "goodf"
+  },
+  {
+    "id": "18",
+    "name": "lipstick",
+    "category": "Skin",
+    "price": 23.0,
+    "stock": 4,
+    "description": "red type"
+  },
+  {
+    "name": "sun screen",
+    "category": "Skin",
+    "price": 780.0,
+    "stock": 12,
+    "description": "product from sun"
+  },
+  {
+    "name": "Velvet",
+    "category": "Skin",
+    "price": 34.0,
+    "stock": 8,
+    "description": "goodss"
+  },
+  {
+    "name": "Velvet12",
+    "category": "Skin",
+    "price": 95.0,
+    "stock": 8,
+    "description": "cool"
+  },
+  {
+    "name": "lipstick",
+    "category": "Skin",
+    "price": 67.0,
+    "stock": 8,
+    "description": "green"
+  },
+  {
+    "name": "dove",
+    "category": "Hair",
+    "price": 986.0,
+    "stock": 9,
+    "description": "hf66"
+  },
+  {
+    "name": "dove",
+    "category": "Hair",
+    "price": 986.0,
+    "stock": 9,
+    "description": "hf66"
+  },
+  {
+    "name": "dove",
+    "category": "Hair",
+    "price": 986.0,
+    "stock": 9,
+    "description": "hf66"
+  },
+  {
+    "name": "dove",
+    "category": "Hair",
+    "price": 986.0,
+    "stock": 9,
+    "description": "hf66"
+  },
+  {
+    "name": "dove",
+    "category": "Hair",
+    "price": 986.0,
+    "stock": 9,
+    "description": "hf66"
+  },
+  {
+    "name": "dove",
+    "category": "Hair",
+    "price": 986.0,
+    "stock": 9,
+    "description": "hf66"
+  },
+  {
+    "name": "dove",
+    "category": "Skin",
+    "price": 986.0,
+    "stock": 9,
+    "description": "very cool"
+  },
+  {
+    "id": "ddeeada9-550d-42a1-a156-c9bf2ff61da0",
+    "name": "dove shampoo",
+    "category": "Hair",
+    "price": 962.0,
+    "stock": 8,
+    "description": "good"
+  },
+  {
+    "id": "681bbe29-31c2-48a6-93b0-64a33d2ddb94",
+    "name": "conditioners",
+    "category": "Hair",
+    "price": 986.0,
+    "stock": 8,
+    "description": "good"
+  },
+  {
+    "id": "23b78d3c-45e9-44b4-bfc5-d861b1a68400",
+    "name": "dove",
+    "category": "Skin",
+    "price": 986.0,
+    "stock": 5,
+    "description": "kkkk"
+  },
+  {
+    "id": "1c475bd1-08c8-4971-aed4-ae95111b759b",
+    "name": "Pure Sunblock",
+    "category": "Skin",
+    "price": 78.0,
+    "stock": 67,
+    "imageUrl": "data:image/jpeg;base64,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\u003d\u003d",
+    "description": "SPF 40 - Normal to dry skin."
+  },
+  {
+    "id": "db5db0f3-652c-424d-9493-814eea17fa88",
+    "name": "dove",
+    "category": "Skin",
+    "price": 67.0,
+    "stock": 4,
+    "imageUrl": "http://localhost:8081/dashboard.html",
+    "description": "good"
+  }
+]

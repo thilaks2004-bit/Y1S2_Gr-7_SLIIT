@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard | Beauty Salon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        video.background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.7), rgba(230, 200, 255, 0.6));
+            backdrop-filter: blur(4px);
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800">
+
+<!-- ✅ Background video and overlay -->
+<video autoplay muted loop class="background-video">
+    <source src="videos/video.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+<div class="overlay"></div>
+
+<!-- ✅ Header Navbar -->
+<nav class="bg-white shadow-lg relative z-10">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="dashboard.html" class="text-xl font-bold text-pink-600">BeautySalon</a>
+        <div class="space-x-4 hidden md:flex">
+            <a href="dashboard.html" class="text-gray-700 hover:text-pink-600">Dashboard</a>
+            <a href="add-product.html" class="text-gray-700 hover:text-pink-600">Add Product</a>
+            <a href="product-list.html" class="text-gray-700 hover:text-pink-600">View Products</a>
+            <a href="about.html" class="text-gray-700 hover:text-pink-600">About</a>
+        </div>
+        <button id="menuBtn" class="md:hidden text-gray-700 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+    </div>
+    <div id="mobileMenu" class="hidden md:hidden px-4 pb-4">
+        <a href="dashboard.html" class="block text-gray-700 py-1 hover:text-pink-600">Dashboard</a>
+        <a href="add-product.html" class="block text-gray-700 py-1 hover:text-pink-600">Add Product</a>
+        <a href="product-list.html" class="block text-gray-700 py-1 hover:text-pink-600">View Products</a>
+        <a href="about.html" class="block text-gray-700 py-1 hover:text-pink-600">About</a>
+    </div>
+</nav>
+
+<!-- ✅ Main Content -->
+<div class="max-w-5xl mx-auto mt-10 p-6 bg-white bg-opacity-80 backdrop-blur-md rounded-xl shadow-xl animate-fade-in relative z-10">
+    <h1 class="text-3xl font-bold text-center text-pink-600 mb-6">Welcome to Beauty Salon Dashboard</h1>
+
+    <div class="grid md:grid-cols-3 gap-6">
+        <!-- Total Products Card -->
+        <div class="bg-pink-100 p-6 rounded-lg text-center shadow hover:shadow-md transition-all duration-300">
+            <h2 class="text-xl font-semibold text-pink-800">Total Products</h2>
+            <p id="productCount" class="text-4xl font-bold text-pink-600 mt-2">0</p>
+        </div>
+
+        <!-- Add Product -->
+        <div onclick="location.href='add-product.html'"
+             class="bg-purple-100 cursor-pointer p-6 rounded-lg text-center shadow hover:shadow-md transition-all duration-300">
+            <h2 class="text-xl font-semibold text-purple-800">Add New Product</h2>
+            <p class="text-sm text-purple-600 mt-2">Start adding new items</p>
+        </div>
+
+        <!-- View Product -->
+        <div onclick="location.href='product-list.html'"
+             class="bg-blue-100 cursor-pointer p-6 rounded-lg text-center shadow hover:shadow-md transition-all duration-300">
+            <h2 class="text-xl font-semibold text-blue-800">View Products</h2>
+            <p class="text-sm text-blue-600 mt-2">See all products in the system</p>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ Scripts -->
+<script>
+    // Animate content fade in
+    document.querySelector('.animate-fade-in').classList.add('transition-opacity', 'duration-1000', 'opacity-0');
+    window.addEventListener('load', () => {
+        document.querySelector('.animate-fade-in').classList.remove('opacity-0');
+    });
+
+    // Mobile menu toggle
+    document.getElementById("menuBtn").addEventListener("click", () => {
+        const menu = document.getElementById("mobileMenu");
+        menu.classList.toggle("hidden");
+    });
+
+    // Fetch product count from backend
+    fetch("/products/count")
+        .then(res => res.json())
+        .then(count => {
+            document.getElementById("productCount").textContent = count;
+        })
+        .catch(err => {
+            console.error("Error fetching product count:", err);
+            Swal.fire("Error", "Unable to load product count", "error");
+        });
+</script>
+
+</body>
+</html>
+
+
