@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>StyleSync Salon</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for star icons and social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #f9f9f9, #e6e6e6);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #1e3a8a; /* Blue header */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #1e3a8a; /* Blue footer */
+            color: #e0f2fe;
+            padding: 30px 0;
+        }
+        .footer-section .footer-links {
+            margin-bottom: 20px;
+        }
+        .footer-column h5 {
+            color: #d4af37;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        .footer-column ul li a {
+            color: #e0f2fe;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-column ul li a:hover {
+            color: #d4af37;
+            text-decoration: underline;
+        }
+        .social-media h5 {
+            color: #d4af37;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .social-icons a {
+            color: #e0f2fe;
+            margin-right: 15px;
+            font-size: 1.5em;
+            transition: color 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: #d4af37;
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #4b6cb7;
+            color: #e0f2fe;
+            font-size: 0.9em;
+        }
+        .star-rating {
+            font-size: 1.5em;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 5px;
+        }
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+        .star-rating label.star {
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .star-rating input[type="radio"]:checked + label.star,
+        .star-rating input[type="radio"]:checked ~ label.star {
+            color: #d4af37; /* Highlight stars up to the selected one */
+        }
+        .star-rating label.star:hover,
+        .star-rating label.star:hover ~ input[type="radio"]:not(:checked) ~ label.star {
+            color: #d4af37; /* Highlight stars up to the hovered one */
+        }
+        .form-section {
+            max-width: 720px;
+            margin: 50px auto;
+            padding: 35px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #eee;
+            flex: 1;
+        }
+        .form-section h2 {
+            color: #1e3a1a;
+            margin: 0 0 25px;
+            text-align: center;
+            font-size: 1.9em;
+            font-weight: 600;
+            position: relative;
+        }
+        .form-section h2::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: #d4af37;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .form-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            justify-content: center; /* Center the buttons */
+        }
+        .modal-content {
+            background-color: #1e3a8a;
+            color: #e0f2fe;
+            border: none;
+            border-radius: 10px;
+        }
+        .modal-header {
+            border-bottom: none;
+        }
+        .modal-body {
+            text-align: center;
+            font-size: 1.2em;
+            padding: 20px;
+        }
+        .modal-footer {
+            border-top: none;
+            justify-content: center;
+        }
+        .btn-close {
+            filter: brightness(0) invert(1);
+        }
+        @media (max-width: 600px) {
+            .form-buttons {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center; /* Center buttons vertically on small screens */
+            }
+            .footer-column {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="headerContainer"></div>
+<div id="reviewSection"></div>
+<div id="footerContainer"></div>
+
+<!-- Bootstrap Modal for Success Popup -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <i class="fas fa-check-circle fa-3x mb-3" style="color: #d4af37;"></i>
+                <p>Review submitted successfully!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Create Header UI
+    document.addEventListener('DOMContentLoaded', function() {
+        const headerContainer = document.getElementById('headerContainer');
+        const header = document.createElement('header');
+        header.className = 'navbar navbar-expand-lg navbar-dark';
+
+        const container = document.createElement('div');
+        container.className = 'container';
+
+        const brand = document.createElement('a');
+        brand.className = 'navbar-brand';
+        brand.href = '#';
+        brand.textContent = 'StyleSync Salon';
+        container.appendChild(brand);
+
+        const toggler = document.createElement('button');
+        toggler.className = 'navbar-toggler';
+        toggler.type = 'button';
+        toggler.setAttribute('data-bs-toggle', 'collapse');
+        toggler.setAttribute('data-bs-target', '#navbarNav');
+        toggler.setAttribute('aria-controls', 'navbarNav');
+        toggler.setAttribute('aria-expanded', 'false');
+        toggler.setAttribute('aria-label', 'Toggle navigation');
+        const togglerIcon = document.createElement('span');
+        togglerIcon.className = 'navbar-toggler-icon';
+        toggler.appendChild(togglerIcon);
+        container.appendChild(toggler);
+
+        const navCollapse = document.createElement('div');
+        navCollapse.className = 'collapse navbar-collapse';
+        navCollapse.id = 'navbarNav';
+
+        const navList = document.createElement('ul');
+        navList.className = 'navbar-nav me-auto mb-2 mb-lg-0';
+        const navItems = [
+            { text: 'Home', href: 'index.html', icon: 'fas fa-home me-1' },
+            { text: 'Services', href: '#', icon: 'fas fa-cut me-1' },
+            { text: 'Feedback', href: '#', icon: 'fas fa-comment-alt me-1' },
+            { text: 'My Reviews', href: 'my-reviews.html', icon: 'fas fa-list me-1' }
+        ];
+        navItems.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'nav-item';
+            const a = document.createElement('a');
+            a.className = 'nav-link';
+            a.href = item.href;
+            const icon = document.createElement('i');
+            icon.className = item.icon;
+            a.appendChild(icon);
+            a.appendChild(document.createTextNode(item.text));
+            li.appendChild(a);
+            navList.appendChild(li);
+        });
+        navCollapse.appendChild(navList);
+
+        const loginList = document.createElement('ul');
+        loginList.className = 'navbar-nav';
+        const loginItem = document.createElement('li');
+        loginItem.className = 'nav-item';
+        const loginLink = document.createElement('a');
+        loginLink.className = 'nav-link';
+        loginLink.href = '#';
+        const loginIcon = document.createElement('i');
+        loginIcon.className = 'fas fa-sign-in-alt me-1';
+        loginLink.appendChild(loginIcon);
+        loginLink.appendChild(document.createTextNode('Login'));
+        loginItem.appendChild(loginLink);
+        loginList.appendChild(loginItem);
+        navCollapse.appendChild(loginList);
+
+        container.appendChild(navCollapse);
+        header.appendChild(container);
+        headerContainer.appendChild(header);
+
+        // Create Review Section UI
+        const section = document.getElementById('reviewSection');
+        const formSection = document.createElement('section');
+        formSection.className = 'form-section';
+
+        const title = document.createElement('h2');
+        title.textContent = 'Share Your Experience';
+        formSection.appendChild(title);
+
+        const form = document.createElement('form');
+        form.id = 'reviewForm';
+        form.onsubmit = function(event) { event.preventDefault(); };
+
+        // Customer Name
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'mb-3';
+        const nameLabel = document.createElement('label');
+        nameLabel.setAttribute('for', 'customerName');
+        nameLabel.className = 'form-label';
+        nameLabel.textContent = 'Your Name';
+        const nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.id = 'customerName';
+        nameInput.className = 'form-control';
+        nameInput.required = true;
+        nameDiv.appendChild(nameLabel);
+        nameDiv.appendChild(nameInput);
+        form.appendChild(nameDiv);
+
+        // Service/Stylist
+        const serviceDiv = document.createElement('div');
+        serviceDiv.className = 'mb-3';
+        const serviceLabel = document.createElement('label');
+        serviceLabel.setAttribute('for', 'service');
+        serviceLabel.className = 'form-label';
+        serviceLabel.textContent = 'Service/Stylist';
+        const serviceSelect = document.createElement('select');
+        serviceSelect.id = 'service';
+        serviceSelect.className = 'form-select';
+        serviceSelect.required = true;
+        const serviceOptions = [
+            { value: '', text: 'Select Service/Stylist' },
+            { value: 'Haircut', text: 'Haircut' },
+            { value: 'Hair Color', text: 'Hair Color' },
+            { value: 'Facial', text: 'Facial' },
+            { value: 'Manicure', text: 'Manicure' },
+            { value: 'Pedicure', text: 'Pedicure' },
+            { value: 'John', text: 'John (Stylist)' },
+            { value: 'Anna', text: 'Anna (Stylist)' }
+        ];
+        serviceOptions.forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option.value;
+            opt.textContent = option.text;
+            serviceSelect.appendChild(opt);
+        });
+        serviceDiv.appendChild(serviceLabel);
+        serviceDiv.appendChild(serviceSelect);
+        form.appendChild(serviceDiv);
+
+        // Rating
+        const ratingDiv = document.createElement('div');
+        ratingDiv.className = 'mb-3';
+        const ratingLabel = document.createElement('label');
+        ratingLabel.className = 'form-label';
+        ratingLabel.textContent = 'Rating';
+        const starDiv = document.createElement('div');
+        starDiv.className = 'star-rating';
+        for (let i = 1; i <= 5; i++) {
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = 'rating';
+            radio.value = i;
+            radio.id = `rating-${i}`;
+            if (i === 1) radio.required = true;
+            const label = document.createElement('label');
+            label.setAttribute('for', `rating-${i}`);
+            label.className = 'star';
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-star';
+            label.appendChild(icon);
+            starDiv.appendChild(radio);
+            starDiv.appendChild(label);
+
+            // Add hover and click event listeners for better control
+            label.addEventListener('mouseover', function() {
+                const value = parseInt(this.getAttribute('for').split('-')[1]);
+                const stars = starDiv.querySelectorAll('label.star');
+                stars.forEach((star, index) => {
+                    if (index < value) {
+                        star.querySelector('i').style.color = '#d4af37';
+                    } else {
+                        star.querySelector('i').style.color = '#ccc';
+                    }
+                });
+            });
+
+            label.addEventListener('mouseout', function() {
+                const checkedRadio = starDiv.querySelector('input[type="radio"]:checked');
+                const stars = starDiv.querySelectorAll('label.star');
+                const selectedValue = checkedRadio ? parseInt(checkedRadio.value) : 0;
+                stars.forEach((star, index) => {
+                    if (index < selectedValue) {
+                        star.querySelector('i').style.color = '#d4af37';
+                    } else {
+                        star.querySelector('i').style.color = '#ccc';
+                    }
+                });
+            });
+
+            radio.addEventListener('change', function() {
+                const value = parseInt(this.value);
+                const stars = starDiv.querySelectorAll('label.star');
+                stars.forEach((star, index) => {
+                    if (index < value) {
+                        star.querySelector('i').style.color = '#d4af37';
+                    } else {
+                        star.querySelector('i').style.color = '#ccc';
+                    }
+                });
+            });
+        }
+        ratingDiv.appendChild(ratingLabel);
+        ratingDiv.appendChild(starDiv);
+        form.appendChild(ratingDiv);
+
+        // Comments
+        const commentsDiv = document.createElement('div');
+        commentsDiv.className = 'mb-3';
+        const commentsLabel = document.createElement('label');
+        commentsLabel.setAttribute('for', 'comments');
+        commentsLabel.className = 'form-label';
+        commentsLabel.textContent = 'Comments about your experience';
+        const commentsTextarea = document.createElement('textarea');
+        commentsTextarea.id = 'comments';
+        commentsTextarea.className = 'form-control';
+        commentsTextarea.rows = '5';
+        commentsTextarea.required = true;
+        commentsDiv.appendChild(commentsLabel);
+        commentsDiv.appendChild(commentsTextarea);
+        form.appendChild(commentsDiv);
+
+        // Form Buttons
+        const buttonsDiv = document.createElement('div');
+        buttonsDiv.className = 'form-buttons';
+        const submitButton = document.createElement('button');
+        submitButton.className = 'btn btn-primary';
+        submitButton.textContent = 'Submit Review';
+        submitButton.onclick = submitReview;
+        const cancelButton = document.createElement('button');
+        cancelButton.className = 'btn btn-secondary cancel';
+        cancelButton.textContent = 'Cancel';
+        cancelButton.onclick = cancelReview;
+        buttonsDiv.appendChild(submitButton);
+        buttonsDiv.appendChild(cancelButton);
+
+        // View All Reviews Button
+        const viewButton = document.createElement('a');
+        viewButton.href = 'my-reviews.html';
+        viewButton.className = 'btn btn-primary view-reviews';
+        viewButton.textContent = 'View All Reviews';
+        buttonsDiv.appendChild(viewButton); // Moved to form-buttons div for single line
+
+        form.appendChild(buttonsDiv);
+
+        formSection.appendChild(form);
+        section.appendChild(formSection);
+
+        // Create Footer UI
+        const footerContainer = document.getElementById('footerContainer');
+        const footer = document.createElement('footer');
+        footer.className = 'container-fluid footer-section mt-5';
+
+        const innerContainer = document.createElement('div');
+        innerContainer.className = 'container';
+
+        const footerLinks = document.createElement('div');
+        footerLinks.className = 'footer-links row';
+
+        const aboutColumn = document.createElement('div');
+        aboutColumn.className = 'footer-column col-md-3 col-sm-6';
+        const aboutTitle = document.createElement('h5');
+        aboutTitle.textContent = 'About';
+        const aboutList = document.createElement('ul');
+        const aboutItems = ['About Us', 'Our Stylists', 'Testimonials'];
+        aboutItems.forEach(item => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = item;
+            li.appendChild(a);
+            aboutList.appendChild(li);
+        });
+        aboutColumn.appendChild(aboutTitle);
+        aboutColumn.appendChild(aboutList);
+
+        const servicesColumn = document.createElement('div');
+        servicesColumn.className = 'footer-column col-md-3 col-sm-6';
+        const servicesTitle = document.createElement('h5');
+        servicesTitle.textContent = 'Services';
+        const servicesList = document.createElement('ul');
+        const servicesItems = ['Hair Services', 'Nail Services', 'Skin Care'];
+        servicesItems.forEach(item => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = item;
+            li.appendChild(a);
+            servicesList.appendChild(li);
+        });
+        servicesColumn.appendChild(servicesTitle);
+        servicesColumn.appendChild(servicesList);
+
+        const policyColumn = document.createElement('div');
+        policyColumn.className = 'footer-column col-md-3 col-sm-6';
+        const policyTitle = document.createElement('h5');
+        policyTitle.textContent = 'Policy';
+        const policyList = document.createElement('ul');
+        const policyItems = ['Terms & Conditions', 'Privacy Policy', 'Cancellation Policy'];
+        policyItems.forEach(item => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = item;
+            li.appendChild(a);
+            policyList.appendChild(li);
+        });
+        policyColumn.appendChild(policyTitle);
+        policyColumn.appendChild(policyList);
+
+        const salonColumn = document.createElement('div');
+        salonColumn.className = 'footer-column col-md-3 col-sm-6';
+        const salonTitle = document.createElement('h5');
+        salonTitle.textContent = 'StyleSync Salon';
+        const salonList = document.createElement('ul');
+        const salonItems = ['Book Appointment', 'Gift Cards', 'Careers'];
+        salonItems.forEach(item => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = item;
+            li.appendChild(a);
+            salonList.appendChild(li);
+        });
+        salonColumn.appendChild(salonTitle);
+        salonColumn.appendChild(salonList);
+
+        footerLinks.appendChild(aboutColumn);
+        footerLinks.appendChild(servicesColumn);
+        footerLinks.appendChild(policyColumn);
+        footerLinks.appendChild(salonColumn);
+
+        const socialMedia = document.createElement('div');
+        socialMedia.className = 'social-media';
+        const socialTitle = document.createElement('h5');
+        socialTitle.textContent = 'Follow Us';
+        const socialIcons = document.createElement('div');
+        socialIcons.className = 'social-icons';
+        const socialLinks = [
+            { href: '#', icon: 'fab fa-facebook' },
+            { href: '#', icon: 'fab fa-instagram' },
+            { href: 'https://www.pinterest.com/search/pins/?q=saloon%20aesthetic&rs=ac&len=6&source_id=ac_DQRpVDJX&eq=saloon&etslf=7444', icon: 'fab fa-pinterest' },
+            { href: '#', icon: 'fab fa-yelp' }
+        ];
+        socialLinks.forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.href;
+            const i = document.createElement('i');
+            i.className = link.icon;
+            a.appendChild(i);
+            socialIcons.appendChild(a);
+        });
+        socialMedia.appendChild(socialTitle);
+        socialMedia.appendChild(socialIcons);
+
+        const copyright = document.createElement('div');
+        copyright.className = 'copyright';
+        copyright.textContent = '© 2025 StyleSync Salon, Inc. All rights reserved.';
+
+        innerContainer.appendChild(footerLinks);
+        innerContainer.appendChild(socialMedia);
+        innerContainer.appendChild(copyright);
+        footer.appendChild(innerContainer);
+        footerContainer.appendChild(footer);
+    });
+
+    // Submit Review Function
+    async function submitReview() {
+        const name = document.getElementById('customerName').value;
+        const service = document.getElementById('service').value;
+        const rating = document.querySelector('input[name="rating"]:checked')?.value;
+        const comments = document.getElementById('comments').value;
+
+        if (!name || !service || !rating || !comments) {
+            alert('Please fill in all required fields!');
+            return;
+        }
+
+        const review = {
+            customerName: name,
+            service: service,
+            rating: parseInt(rating),
+            comments: comments,
+            response: "",
+            date: new Date('2025-05-17T16:24:00+0530').toISOString().split('T')[0] // Current date based on system time
+        };
+
+        try {
+            const response = await fetch('/api/reviews', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(review)
+            });
+            if (response.ok) {
+                const modal = new bootstrap.Modal(document.getElementById('successModal'));
+                modal.show();
+                setTimeout(() => {
+                    modal.hide();
+                    document.getElementById('reviewForm').reset();
+                }, 3000); // Auto-close after 3 seconds
+            } else {
+                alert('Error submitting review');
+            }
+        } catch (error) {
+            alert('Error: ' + error.message);
+        }
+    }
+
+    // Cancel Review Function
+    function cancelReview() {
+        document.getElementById('reviewForm').reset();
+    }
+</script>
+</body>
+</html>

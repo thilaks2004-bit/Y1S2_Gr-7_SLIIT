@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>StyleSync Salon</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for star icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #f9f9f9, #e6e6e6);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #1e3a8a; /* Blue header */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #1e3a8a; /* Blue footer */
+            color: #e0f2fe;
+            padding: 30px 0;
+        }
+        .footer-section .footer-links {
+            margin-bottom: 20px;
+        }
+        .footer-column h5 {
+            color: #d4af37;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        .footer-column ul li a {
+            color: #e0f2fe;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-column ul li a:hover {
+            color: #d4af37;
+            text-decoration: underline;
+        }
+        .social-media h5 {
+            color: #d4af37;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .social-icons a {
+            color: #e0f2fe;
+            margin-right: 15px;
+            font-size: 1.5em;
+            transition: color 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: #d4af37;
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #4b6cb7;
+            color: #e0f2fe;
+            font-size: 0.9em;
+        }
+        .manager-section {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 35px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #eee;
+            flex: 1;
+        }
+        .manager-section h2 {
+            color: #1e3a1a;
+            margin: 0 0 25px;
+            text-align: center;
+            font-size: 1.9em;
+            font-weight: 600;
+            position: relative;
+        }
+        .manager-section h2::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: #d4af37;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .filters select, .filters button {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .filters button {
+            background-color: #1e3a8a;
+            color: #e0f2fe;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .filters button:hover {
+            background-color: #2b4ea1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            vertical-align: middle;
+        }
+        th {
+            background-color: #1e3a8a;
+            color: #e0f2fe;
+        }
+        .rating-stars {
+            font-size: 1.1em;
+        }
+        .rating-stars .fas.fa-star {
+            color: #d4af37;
+        }
+        .rating-stars .far.fa-star {
+            color: #ccc;
+        }
+        .actions button {
+            margin-right: 5px;
+            padding: 5px 10px;
+            font-size: 0.9em;
+        }
+        .modal-content {
+            background-color: #1e3a8a;
+            color: #e0f2fe;
+            border: none;
+            border-radius: 10px;
+        }
+        .modal-header {
+            border-bottom: none;
+        }
+        .modal-body {
+            text-align: center;
+            font-size: 1.2em;
+            padding: 20px;
+        }
+        .modal-footer {
+            border-top: none;
+            justify-content: center;
+        }
+        .btn-close {
+            filter: brightness(0) invert(1);
+        }
+        .btn-confirm {
+            background-color: #d4af37;
+            color: #1e3a8a;
+        }
+        .btn-confirm:hover {
+            background-color: #e0c568;
+        }
+        @media (max-width: 600px) {
+            .filters {
+                flex-direction: column;
+            }
+            .footer-column {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="headerContainer"></div>
+<div id="managerSection"></div>
+<div id="footerContainer"></div>
+
+<!-- Success Modal for Update and Delete -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <i class="fas fa-check-circle fa-3x mb-3" style="color: #d4af37;"></i>
+                <p id="successMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this review?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-confirm" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let customerNameToDelete = null;
+
+    // Create Header UI
+    document.addEventListener('DOMContentLoaded', function() {
+        const headerContainer = document.getElementById('headerContainer');
+        const header = document.createElement('header');
+        header.className = 'navbar navbar-expand-lg navbar-dark';
+
+        const container = document.createElement('div');
+        container.className = 'container';
+
+        const brand = document.createElement('a');
+        brand.className = 'navbar-brand';
+        brand.href = '#';
+        brand.textContent = 'StyleSync Salon';
+        container.appendChild(brand);
+
+        const toggler = document.createElement('button');
+        toggler.className = 'navbar-toggler';
+        toggler.type = 'button';
+        toggler.setAttribute('data-bs-toggle', 'collapse');
+        toggler.setAttribute('data-bs-target', '#navbarNav');
+        toggler.setAttribute('aria-controls', 'navbarNav');
+        toggler.setAttribute('aria-expanded', 'false');
+        toggler.setAttribute('aria-label', 'Toggle navigation');
+        const togglerIcon = document.createElement('span');
+        togglerIcon.className = 'navbar-toggler-icon';
+        toggler.appendChild(togglerIcon);
+        container.appendChild(toggler);
+
+        const navCollapse = document.createElement('div');
+        navCollapse.className = 'collapse navbar-collapse';
+        navCollapse.id = 'navbarNav';
+
+        const navList = document.createElement('ul');
+        navList.className = 'navbar-nav me-auto mb-2 mb-lg-0';
+        const navItems = [
+            { text: 'Home', href: 'index.html', icon: 'fas fa-home me-1' },
+            { text: 'Services', href: '#', icon: 'fas fa-cut me-1' },
+            { text: 'Feedback', href: '#', icon: 'fas fa-comment-alt me-1' },
+            { text: 'My Reviews', href: 'my-reviews.html', icon: 'fas fa-list me-1' }
+        ];
+        navItems.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'nav-item';
+            const a = document.createElement('a');
+            a.className = 'nav-link';
+            a.href = item.href;
+            const icon = document.createElement('i');
+            icon.className = item.icon;
+            a.appendChild(icon);
+            a.appendChild(document.createTextNode(item.text));
+            li.appendChild(a);
+            navList.appendChild(li);
+        });
+        navCollapse.appendChild(navList);
+
+        const loginList = document.createElement('ul');
+        loginList.className = 'navbar-nav';
+        const loginItem = document.createElement('li');
+        loginItem.className = 'nav-item';
+        const loginLink = document.createElement('a');
+        loginLink.className = 'nav-link';
+        loginLink.href = '#';
+        const loginIcon = document.createElement('i');
+        loginIcon.className = 'fas fa-sign-in-alt me-1';
+        loginLink.appendChild(loginIcon);
+        loginLink.appendChild(document.createTextNode('Login'));
+        loginItem.appendChild(loginLink);
+        loginList.appendChild(loginItem);
+        navCollapse.appendChild(loginList);
+
+        container.appendChild(navCollapse);
+        header.appendChild(container);
+        headerContainer.appendChild(header);
+
+        // Create Manager Section UI
+        const section = document.getElementById('managerSection');
+        const managerSection = document.createElement('section');
+        managerSection.className = 'manager-section';
+
+        const title = document.createElement('h2');
+        title.textContent = 'Review Response Manager';
+        managerSection.appendChild(title);
+
+        const filtersDiv = document.createElement('div');
+        filtersDiv.className = 'filters';
+        filtersDiv.innerHTML = `
+                <label>Filter by Status:</label>
+                <select id="statusFilter">
+                    <option>All Reviews</option>
+                    <option>Responded</option>
+                    <option>Unresponded</option>
+                </select>
+                <label>Filter by Service:</label>
+                <select id="serviceFilter">
+                    <option>All Services</option>
+                    <option>Haircut</option>
+                    <option>Hair Color</option>
+                    <option>Facial</option>
+                    <option>Manicure</option>
+                    <option>Pedicure</option>
+                    <option>John</option>
+                    <option>Anna</option>
+                </select>
+                <button onclick="applyFilters()">Apply Filters</button>
+                <button onclick="exportReviews()">Export Reviews</button>
+            `;
+        managerSection.appendChild(filtersDiv);
+
+        const table = document.createElement('table');
+        table.id = 'reviewsTable';
+        table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Service/Stylist</th>
+                        <th>Rating</th>
+                        <th>Reviewed On</th>
+                        <th>Comment</th>
+                        <th>Response</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            `;
+        managerSection.appendChild(table);
+
+        section.appendChild(managerSection);
+
+        // Create Footer UI
+        const footerContainer = document.getElementById('footerContainer');
+        const footer = document.createElement('footer');
+        footer.className = 'container-fluid footer-section mt-5';
+
+        const innerContainer = document.createElement('div');
+        innerContainer.className = 'container';
+
+        const footerLinks = document.createElement('div');
+        footerLinks.className = 'footer-links row';
+
+        const aboutColumn = document.createElement('div');
+        aboutColumn.className = 'footer-column col-md-3 col-sm-6';
+        const aboutTitle = document.createElement('h5');
+        aboutTitle.textContent = 'About';
+        const aboutList = document.createElement('ul');
+        const aboutItems = ['About Us', 'Our Stylists', 'Testimonials'];
+        aboutItems.forEach(item => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = item;
+            li.appendChild(a);
+            aboutList.appendChild(li);
+        });
+        aboutColumn.appendChild(aboutTitle);
+        aboutColumn.appendChild(aboutList);
+
+        const servicesColumn = document.createElement('div');
+        servicesColumn.className = 'footer-column col-md-3 col-sm-6';
+        const servicesTitle = document.createElement('h5');
+        servicesTitle.textContent = 'Services';
+        const servicesList = document.createElement('ul');
+        const servicesItems = ['Hair Services', 'Nail Services', 'Skin Care'];
+        servicesItems.forEach(item => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = item;
+            li.appendChild(a);
+            servicesList.appendChild(li);
+        });
+        servicesColumn.appendChild(servicesTitle);
+        servicesColumn.appendChild(servicesList);
+
+        const policyColumn = document.createElement('div');
+        policyColumn.className = 'footer-column col-md-3 col-sm-6';
+        const policyTitle = document.createElement('h5');
+        policyTitle.textContent = 'Policy';
+        const policyList = document.createElement('ul');
+        const policyItems = ['Terms & Conditions', 'Privacy Policy', 'Cancellation Policy'];
+        policyItems.forEach(item => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = item;
+            li.appendChild(a);
+            policyList.appendChild(li);
+        });
+        policyColumn.appendChild(policyTitle);
+        policyColumn.appendChild(policyList);
+
+        const salonColumn = document.createElement('div');
+        salonColumn.className = 'footer-column col-md-3 col-sm-6';
+        const salonTitle = document.createElement('h5');
+        salonTitle.textContent = 'StyleSync Salon';
+        const salonList = document.createElement('ul');
+        const salonItems = ['Book Appointment', 'Gift Cards', 'Careers'];
+        salonItems.forEach(item => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = item;
+            li.appendChild(a);
+            salonList.appendChild(li);
+        });
+        salonColumn.appendChild(salonTitle);
+        salonColumn.appendChild(salonList);
+
+        footerLinks.appendChild(aboutColumn);
+        footerLinks.appendChild(servicesColumn);
+        footerLinks.appendChild(policyColumn);
+        footerLinks.appendChild(salonColumn);
+
+        const socialMedia = document.createElement('div');
+        socialMedia.className = 'social-media';
+        const socialTitle = document.createElement('h5');
+        socialTitle.textContent = 'Follow Us';
+        const socialIcons = document.createElement('div');
+        socialIcons.className = 'social-icons';
+        const socialLinks = [
+            { href: '#', icon: 'fab fa-facebook' },
+            { href: '#', icon: 'fab fa-instagram' },
+            { href: 'https://www.pinterest.com/search/pins/?q=saloon%20aesthetic&rs=ac&len=6&source_id=ac_DQRpVDJX&eq=saloon&etslf=7444', icon: 'fab fa-pinterest' },
+            { href: '#', icon: 'fab fa-yelp' }
+        ];
+        socialLinks.forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.href;
+            const i = document.createElement('i');
+            i.className = link.icon;
+            a.appendChild(i);
+            socialIcons.appendChild(a);
+        });
+        socialMedia.appendChild(socialTitle);
+        socialMedia.appendChild(socialIcons);
+
+        const copyright = document.createElement('div');
+        copyright.className = 'copyright';
+        copyright.textContent = '© 2025 StyleSync Salon, Inc. All rights reserved.';
+
+        innerContainer.appendChild(footerLinks);
+        innerContainer.appendChild(socialMedia);
+        innerContainer.appendChild(copyright);
+        footer.appendChild(innerContainer);
+        footerContainer.appendChild(footer);
+
+        // Load reviews after DOM is fully loaded
+        loadReviews();
+    });
+
+    // Load Reviews Function
+    async function loadReviews() {
+        const tbody = document.querySelector('#reviewsTable tbody');
+        const status = document.getElementById('statusFilter').value;
+        const service = document.getElementById('serviceFilter').value;
+
+        try {
+            const response = await fetch('/api/reviews');
+            let reviews = await response.json();
+
+            if (status !== 'All Reviews') {
+                reviews = reviews.filter(r =>
+                    (status === 'Responded' && r.response) ||
+                    (status === 'Unresponded' && !r.response));
+            }
+            if (service !== 'All Services') {
+                reviews = reviews.filter(r => r.service === service);
+            }
+
+            tbody.innerHTML = reviews.map(r => {
+                // Generate star icons based on rating
+                const stars = Array(5).fill().map((_, i) =>
+                    `<i class="fas fa-star ${i < r.rating ? '' : 'far'}"></i>`
+                ).join('');
+                // Update date format if needed (assuming ISO string from API)
+                const reviewedDate = new Date(r.date).toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+                return `
+                        <tr>
+                            <td>${r.customerName}</td>
+                            <td>${r.service}</td>
+                            <td class="rating-stars">${stars}</td>
+                            <td>${reviewedDate}</td>
+                            <td>${r.comments}</td>
+                            <td>${r.response || 'None'}</td>
+                            <td class="actions">
+                                <button onclick="editResponse('${r.customerName}', '${r.response || ''}')">Edit</button>
+                                <button onclick="showDeleteConfirmModal('${r.customerName}')">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+            }).join('');
+        } catch (error) {
+            tbody.innerHTML = '<tr><td colspan="7" class="text-danger">Error loading reviews</td></tr>';
+        }
+    }
+
+    function applyFilters() {
+        loadReviews();
+    }
+
+    async function exportReviews() {
+        try {
+            const response = await fetch('/api/reviews');
+            const reviews = await response.json();
+            const blob = new Blob([JSON.stringify(reviews, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'reviews.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            alert('Error exporting reviews: ' + error.message);
+        }
+    }
+
+    async function editResponse(customerName, currentResponse) {
+        const newResponse = prompt('Enter response:', currentResponse);
+        if (newResponse !== null) {
+            try {
+                const response = await fetch('/api/reviews');
+                const reviews = await response.json();
+                const review = reviews.find(r => r.customerName === customerName);
+                review.response = newResponse;
+
+                const updateResponse = await fetch('/api/reviews', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(review)
+                });
+                if (updateResponse.ok) {
+                    const modal = new bootstrap.Modal(document.getElementById('successModal'));
+                    document.getElementById('successMessage').textContent = 'Response updated successfully!';
+                    modal.show();
+                    setTimeout(() => {
+                        modal.hide();
+                        loadReviews();
+                    }, 3000); // Auto-close after 3 seconds
+                } else {
+                    alert('Error updating response');
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+    }
+
+    function showDeleteConfirmModal(customerName) {
+        customerNameToDelete = customerName;
+        const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+        modal.show();
+    }
+
+    async function deleteReview() {
+        const customerName = customerNameToDelete;
+        if (!customerName) return;
+
+        try {
+            const response = await fetch(`/api/reviews/${customerName}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                const modal = new bootstrap.Modal(document.getElementById('successModal'));
+                document.getElementById('successMessage').textContent = 'Review deleted successfully!';
+                modal.show();
+                setTimeout(() => {
+                    modal.hide();
+                    loadReviews();
+                }, 3000); // Auto-close after 3 seconds
+            } else {
+                alert('Error deleting review');
+            }
+        } catch (error) {
+            alert('Error: ' + error.message);
+        } finally {
+            customerNameToDelete = null;
+        }
+    }
+
+    // Attach event listener for the confirm delete button
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
+            modal.hide();
+            deleteReview();
+        });
+    });
+</script>
+</body>
+</html>

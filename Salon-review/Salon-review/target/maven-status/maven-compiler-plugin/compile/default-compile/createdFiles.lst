@@ -1,0 +1,6 @@
+com\stylesync\salonreview\service\ReviewService.class
+com\stylesync\salonreview\model\Feedback.class
+com\stylesync\salonreview\SalonReviewApplication.class
+com\stylesync\salonreview\service\FeedbackService.class
+com\stylesync\salonreview\model\Review.class
+com\stylesync\salonreview\controller\ReviewController.class
