@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Appointment List</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        nav {
+            background-color: #d6a8d1;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/search-service">Search</a></li>
+        <li><a href="/appointments/book">Appoiment</a></li>
+        <li><a href="/appointments/list">Reschoedule</a></li>
+    </ul>
+</nav>
+<body class="bg-gray-100">
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Appointment List</h1>
+    <a href="/appointments/book" class="bg-green-500 text-white p-2 rounded mb-4 inline-block">Book New Appointment</a>
+    <table class="w-full border">
+        <thead>
+
+        <tr class="bg-gray-200">
+            <th class="border p-2">Customer Name</th>
+            <th class="border p-2">Time Slot</th>
+            <th class="border p-2">Service Type</th>
+            <th class="border p-2">User Type</th>
+            <th class="border p-2">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="appointment : ${appointments}">
+            <td class="border p-2" th:text="${appointment.customerName}"></td>
+            <td class="border p-2" th:text="${appointment.timeSlot}"></td>
+            <td class="border p-2" th:text="${appointment.serviceType}"></td>
+            <td class="border p-2" th:text="${appointment.userType}"></td>
+            <td class="border p-2">
+                <a th:href="@{/appointments/reschedule/{id}(id=${appointment.id})}" class="text-blue-500">Reschedule</a>
+                <form th:action="@{/appointments/delete/{id}(id=${appointment.id})}" method="post" class="inline">
+                    <button type="submit" class="text-red-500">Cancel</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

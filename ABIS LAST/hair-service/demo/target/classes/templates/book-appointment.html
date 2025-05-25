@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Premium Appointment Booking | Naan Salon</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #3a0ca3;
+            --primary-main: #4361ee;
+            --primary-light: #4cc9f0;
+            --gold-accent: #f8961e;
+            --text-dark: #212529;
+            --text-light: #f8f9fa;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+            background-image: url('https://images.unsplash.com/photo-1600334129128-685c5582fd35?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .appointment-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .appointment-card {
+            width: 100%;
+            max-width: 700px;
+            border: none;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .appointment-card:hover {
+            transform: translateY(-10px) scale(1.01);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-main));
+            color: white;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold-accent), transparent);
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 2rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        .card-body {
+            padding: 2.5rem;
+            background-color: white;
+            position: relative;
+        }
+
+        .card-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, var(--primary-light), transparent);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 0.75rem 1.25rem;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-main);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.15);
+        }
+
+        .input-group-text {
+            background-color: var(--primary-main);
+            color: white;
+            border: none;
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-main));
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-premium::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-premium:hover::after {
+            left: 100%;
+        }
+
+        .btn-outline-premium {
+            border: 2px solid var(--primary-main);
+            color: var(--primary-main);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+        }
+
+        .btn-outline-premium:hover {
+            background-color: var(--primary-main);
+            color: white;
+        }
+
+        .service-icon {
+            color: var(--primary-main);
+            font-size: 1.25rem;
+            margin-right: 0.5rem;
+        }
+
+        .premium-badge {
+            background-color: var(--gold-accent);
+            color: white;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+
+            .card-title {
+                font-size: 1.75rem;
+            }
+        }
+
+         nav {
+             background-color: #d6a8d1;
+             padding: 10px 0;
+         }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/search-service">Search</a></li>
+        <li><a href="/appointments/book">Appoiment</a></li>
+        <li><a href="/appointments/list">Reschoedule</a></li>
+    </ul>
+</nav>
+<div class="appointment-container">
+    <div class="card appointment-card">
+        <div class="card-header">
+            <h1 class="card-title"><i class="bi bi-scissors me-2"></i>NAAN SALON</h1>
+            <p class="card-subtitle">Premium Beauty Experience</p>
+        </div>
+        <div class="card-body">
+
+
+            <form th:action="@{/appointments/book}" th:object="${appointment}" method="post">
+                <div class="mb-4">
+                    <label for="customerName" class="form-label">Your Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        <input type="text" class="form-control" id="customerName" th:field="*{customerName}" placeholder="Enter your full name" required>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label for="timeSlot" class="form-label">Appointment Time</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-clock"></i></span>
+                            <input type="datetime-local" class="form-control" id="timeSlot" th:field="*{timeSlot}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="userType" class="form-label">Membership Type</label>
+                        <select class="form-select" id="userType" name="userType" required>
+                            <option value="Regular">Regular Customer</option>
+                            <option value="Premium">Premium Member <span class="premium-badge">EXCLUSIVE</span></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="serviceType" class="form-label">Select Service</label>
+                    <select class="form-select" id="serviceType" th:field="*{serviceType}" required>
+                        <option value="" disabled selected>-- Choose your premium service --</option>
+                        <option th:each="service : ${services}"
+                                th:value="${service.name}"
+                                th:text="${service.displayDetails()}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="d-grid mt-5">
+                    <button type="submit" class="btn btn-premium btn-lg py-3">
+                        <i class="bi bi-calendar-check me-2"></i> CONFIRM YOUR APPOINTMENT
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-4 pt-4 text-center">
+                <p class="small text-muted mb-0">
+                    <i class="bi bi-shield-lock me-1"></i> Your information is secure with us
+                </p>
+                <p class="small text-muted">
+                    Need assistance? <a href="#" class="text-decoration-none" style="color: var(--primary-main);">Contact our concierge</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

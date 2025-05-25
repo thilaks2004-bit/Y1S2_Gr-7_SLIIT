@@ -1,0 +1,11 @@
+Haircut,45,30.00,Hair,Short,Short
+Facial,60,50.00,Skin,Dry,Dry
+Hair Coloring,90,80.00,Hair,Long,Long
+Skin Cleansing,30,25.00,Skin,Oily,Oily
+hair iron,15,5.00,Hair,iron best,iron best
+Head Massage,10,10000.0,Hair,I want to go to sleep
+Head Massage,50,10.0,Hair,I want to go to sleep
+aaaththaa,20,600.0,Skin,I want to go to sleep
+nail police and hair cut,10,1000.0,Hair,I want to go to sleep
+polishing,20,1000.0,Skin,nothing
+fresh nailing,7,560.0,Nails,no

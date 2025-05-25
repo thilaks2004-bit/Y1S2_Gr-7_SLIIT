@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reschedule Appointment</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Reschedule Appointment</h1>
+    <form th:action="@{/appointments/reschedule/{id}(id=${appointment.id})}" th:object="${appointment}" method="post" class="space-y-4">
+        <div>
+            <label for="customerName" class="block">Customer Name:</label>
+            <input type="text" id="customerName" th:field="*{customerName}" class="border p-2 w-full" required>
+        </div>
+        <div>
+            <label for="timeSlot" class="block">New Time Slot:</label>
+            <input type="datetime-local" id="timeSlot" th:field="*{timeSlot}" class="border p-2 w-full" required>
+        </div>
+        <div>
+            <label for="serviceType" class="block">Service Type:</label>
+            <select id="serviceType" th:field="*{serviceType}" class="border p-2 w-full" required>
+                <option value="" disabled selected>-- Select a Service --</option>
+                <option th:each="service : ${services}"
+                        th:value="${service.name}"
+                        th:text="${service.displayDetails()}">
+                </option>
+            </select>
+        </div>
+        <div>
+            <label for="userType" class="block">User Type:</label>
+            <select id="userType" name="userType" class="border p-2 w-full" required>
+                <option value="Regular">Regular</option>
+                <option value="Premium">Premium</option>
+            </select>
+        </div>
+        <button type="submit" class="bg-blue-500 text-white p-2 rounded">Reschedule</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+Haircut,45,30.00,Hair,Short,Short
+Facial,60,50.00,Skin,Dry,Dry
+Hair Coloring,90,80.00,Hair,Long,Long
+Skin Cleansing,30,25.00,Skin,Oily,Oily
+hair iron,15,5.00,Hair,iron best,iron best

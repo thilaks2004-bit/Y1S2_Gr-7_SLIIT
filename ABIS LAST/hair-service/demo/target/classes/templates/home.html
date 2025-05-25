@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleSync Salon - Beauty & Wellness</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #9bbddd;
+            padding: 20px 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #3d36a3;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .hero {
+            /*background-image: url('salon-hero.jpg');*/
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        .hero-content {
+            background-color: rgba(0,0,0,0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .services {
+            padding: 50px 20px;
+            text-align: center;
+        }
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .service-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #20988b;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>StyleSync Salon</h1>
+    <p>Your beauty is our passion</p>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="/index">Home</a></li>
+        <li><a href="/search-service">Search</a></li>
+        <li><a href="/appointments/book">Appoiment</a></li>
+        <li><a href="/appointments/list">Reschedule</a></li>
+    </ul>
+</nav>
+
+<section class="hero">
+    <div class="hero-content">
+        <h2>Experience Luxury Beauty Care</h2>
+        <p>Book your appointment today and get  off your first visit</p>
+        <a href="appointments/book" class="btn">Book Now</a>
+    </div>
+</section>
+
+<section class="services">
+    <h2>Our Services</h2>
+    <p>We offer a wide range of beauty and wellness services</p>
+
+    <div class="service-grid">
+        <div class="service-card">
+            <h3>Hair Styling</h3>
+            <p>From cuts to coloring, we'll create your perfect look.</p>
+        </div>
+        <div class="service-card">
+            <h3>Manicure & Pedicure</h3>
+            <p>Pamper your hands and feet with our luxurious treatments.</p>
+        </div>
+        <div class="service-card">
+            <h3>Facials</h3>
+            <p>Rejuvenate your skin with our specialized facial treatments.</p>
+        </div>
+        <div class="service-card">
+            <h3>Waxing</h3>
+            <p>Professional hair removal services for smooth, beautiful skin.</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2025 StyleSync Salon. All rights reserved.</p>
+    <p>123 Beauty Street, Glamour City | Phone: (123) 456-7890</p>
+</footer>
+</body>
+</html>
